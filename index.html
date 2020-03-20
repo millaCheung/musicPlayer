@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+<div class="wrap">
+    <!--播放器主体区域-->
+    <div class="play_wrap" id="player">
+        <div class="search_bar">
+            <img src="./images/player_title.png" alt="" />
+            <!--搜索歌曲-->
+            <div class="search_item">
+                <input type="text" autocomplete="off" placeholder="五月天" v-model="query" @keyup.enter="searchMusic" />
+                <a href="javascript:;" class="search_btn" @click="searchMusic"></a>
+            </div>
+        </div>
+        <div class="center_con">
+            <!--搜索歌曲列表-->
+            <div class="song_wrapper">
+                <ul class="song_list">
+                    <li v-for="(item, index) in musicList">
+                        <a href="javascript:;" @click="playMusic(item.id), play"></a>
+                        <b v-text="item.name"></b>
+                        <span v-if="item.mvid !== 0" @click="playMV(item.mvid)"></span>
+                    </li>
+                </ul>
+            </div>
+            <!--歌曲信息容器-->
+            <div class="player_wrapper">
+                <img src="./images/line.png" alt="" />
+                <div class="player_con">
+                    <img src="./images/player_bar.png" alt="" class="play_bar" :class="{playing: isPlaying}" />
+                    <img src="./images/disc.png" class="disc autoRotate" :class="{playing: isPlaying}" />
+                    <img :src="picUrl" class="cover autoRotate" :class="{playing: isPlaying}" />
+                </div>
+                <img src="./images/line.png" alt="" />
+            </div>
+            <div class="comment_wrapper">
+                <h5 class="title">热门留言</h5>
+                <div class="comment_list">
+                    <dl v-for="(item, index) in hotComments">
+                        <dt><img :src="item.user.avatarUrl" alt=""></dt>
+                        <dd v-text="item.user.nickname"></dd>
+                        <dd v-text="item.content"></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="audio_con">
+            <audio :src="musicUrl" @play="play" @pause="pause" controls="controls" autoplay="autoplay" loop="loop" class="myaudio"></audio>
+        </div>
+        <div class="video_con" v-show="isShow" style="display: none;">
+            <video :src="mvUrl" controls="controls" autoplay="autoplay"></video>
+            <div class="mask" @click="hide"></div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>
+<script src="./js/index.js"></script>
+</body>
+</html>
